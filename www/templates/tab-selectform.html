@@ -1,0 +1,9 @@
+<ion-view view-title="Questionnaire">
+  <ion-content>
+    <ion-list>
+      <ion-toggle class="item" ng-repeat="lesson in Lessons" ng-model="lesson.value" ng-change="lessonChange({{lesson.id}})">
+	    {{lesson.label}}
+	  </ion-toggle>
+    </ion-list>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,20 @@
+<ion-modal-view>
+  <ion-content>
+    <ion-list>
+      <ion-item>
+        <button class="button button-block button-positive" ng-click="fstart();loginModal.hide();">Continuer</button>
+      </ion-item>
+      <ion-item>
+        <h2>{{note}}/{{SURnote}}</h2>
+      </ion-item>
+      <ion-item class="" ng-repeat="res in Wtest" type="item-text-wrap">
+        <h2 ng-class='{assertive : !res.nt, calm: res.nt}' >{{res.wb}}</h2>
+        <p class="item-icon-right">
+          {{res.wa.It}} | {{res.wa.Fr.join(', ')}}
+          <i ng-if="res.nt" class="icon ion-checkmark-round icon-accessory"></i>
+          <i ng-if="!res.nt" class="icon ion-close-round icon-accessory"></i>
+        </p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-modal-view>

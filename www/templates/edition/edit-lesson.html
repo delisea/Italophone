@@ -1,0 +1,26 @@
+<ion-view view-title={{lesson.val}}>
+  <ion-content>
+    <ion-list>
+    	<ion-item class="item  item-icon-right" href="#/edit/lesson">
+    		Retour
+        	<i class="icon ion-chevron-right icon-accessory"></i>
+    	</ion-item>
+    	<ion-item class="item  item-icon-right">
+    		Supprimer
+        	<i class="icon ion-chevron-right icon-accessory"></i>
+    	</ion-item>
+    	<ion-item class="item  item-icon-right">
+    		Renommer
+        	<i class="icon ion-chevron-right icon-accessory"></i>
+    	</ion-item>
+        <ion-item class="item  item-icon-right" href="#/edit/lesson/{{lesson.val}}/edit/-1">
+    		Ajouter une notion
+        	<i class="icon ion-chevron-right icon-accessory"></i>
+    	</ion-item>
+    	<ion-item class="item  item-icon-right" href="#/edit/lesson/{{lesson.val}}/edit">
+    		Modifier les notions
+        	<i class="icon ion-chevron-right icon-accessory"></i>
+    	</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

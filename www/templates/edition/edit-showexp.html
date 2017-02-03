@@ -1,0 +1,51 @@
+<ion-view view-title="{{lesson.val}}: {{id.val}}">
+  <ion-content>
+  	<ion-list>
+      <ion-item class="item  item-icon-right" href="#/edit/lesson/{{lesson.val}}/edit">
+      Retour
+        <i class="icon ion-chevron-right icon-accessory"></i>
+    </ion-item>
+  		<ion-item ng-hide="Nstate.val==-1" class="item item-icon-right" ng-click="Nstate.val = -1">
+  			Ajouter un synonymes
+  			<i class="icon ion-plus-round positive"></i>
+  		</ion-item>
+  		<ion-item ng-hide="Nstate.val!=-1" class="item item-input-inset" type="item-text-wrap">
+  			<label class="item-input-wrapper">
+  				<input ng-model="text.val" type="text" placeholder="Ajouter un synonyme">
+  			</label>
+			<span ng-hide="wordLanguage.val!='Fr'" ng-click="wordLanguage.val='It';" class="button button button-small" style="border-width: 0px; background: -webkit-linear-gradient(left, blue 33%, white 33%, white 67%, red 67%);">
+			</span>
+			<span ng-hide="wordLanguage.val!='It'" ng-click="wordLanguage.val='Fr';" class="button button button-small" style="border-width: 0px; background: -webkit-linear-gradient(left, green 33%, white 33%, white 67%, red 67%);">
+			</span>
+			<button class="button button-icon" ng-click="expressionAdd(text.val, wordLanguage.val);"><i class="icon ion-checkmark-round balanced"></i></button>
+			<button class="button button-icon" ng-click="Nstate.val = 0; text.val='';"><i class="icon ion-android-cancel assertive" ng-model="word.value"></i></button>
+  		</ion-item>
+  		<ion-item ng-repeat="term in notion.val" class="item item-input-inset" type="item-text-wrap">
+  			<div ng-hide="Nstate.val==setState({{term.idSY}}, '{{term.language}}')">
+  				{{term.label}}
+  			</div>
+			<div ng-hide="Nstate.val==setState({{term.idSY}}, '{{term.language}}')" style="width: 100%; text-align: right;">
+				<span ng-hide="'{{term.language}}'!='Fr'" ng-click="wordLanguage.val='It';" class="button button button-medium" style="border-width: 0px; background: -webkit-linear-gradient(left, blue 33%, white 33%, white 67%, red 67%);"></span>
+				<span ng-hide="'{{term.language}}'!='It'" ng-click="wordLanguage.val='Fr';" class="button button button-medium" style="border-width: 0px; background: -webkit-linear-gradient(left, green 33%, white 33%, white 67%, red 67%);"></span>
+				<button class="button button-icon button-medium" ng-click="Nstate.val=setState({{term.idSY}}, '{{term.language}}'); wordLanguage.val='{{term.language}}';"><i class="icon ion-edit balanced"></i></button>
+				<button class="button button-icon button-medium" ng-click="deleteword({{term.idSY}}, '{{term.language}}');"><i class="icon ion-close-round assertive" ng-model="word.value"></i></button>
+			</div>
+
+
+  			<!-- Selected -->
+  			<div ng-hide="Nstate.val!=setState({{term.idSY}}, '{{term.language}}')">
+  				<label class="item-input-wrapper">
+  					<input ng-model="text.val" type="text" placeholder="{{term.label}}">
+  				</label>
+  			</div>
+			<div ng-hide="Nstate.val!=setState({{term.idSY}}, '{{term.language}}')" style="width: 100%; text-align: right;">
+				<span ng-hide="wordLanguage.val!='Fr'" ng-click="wordLanguage.val='It';" class="button button button-medium" style="border-width: 0px; background: -webkit-linear-gradient(left, blue 33%, white 33%, white 67%, red 67%);" ng-click="wordLanguage.val='It';"></span>
+				<span ng-hide="wordLanguage.val!='It'" ng-click="wordLanguage.val='Fr';" class="button button button-medium" style="border-width: 0px; background: -webkit-linear-gradient(left, green 33%, white 33%, white 67%, red 67%);" ng-click="wordLanguage.val='Fr';"></span>
+				<button class="button button-icon button-medium" ng-click="editword({{term.idSY}}, '{{term.language}}', wordLanguage.val, '{{term.label}}');"><i class="icon ion-checkmark-round balanced"></i></button>
+				<button class="button button-icon button-medium" ng-click="Nstate.val = 0; text.val='';"><i class="icon ion-android-cancel assertive" ng-model="word.value"></i></button>
+			</div>
+
+  		</ion-item>
+  	</ion-list>
+  </ion-content>
+</ion-view>

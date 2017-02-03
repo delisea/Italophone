@@ -1,0 +1,248 @@
+<ion-view view-title="Édition des données">
+  <ion-content>
+    <ion-list>
+      <ion-item  ng-click="StateMachine.val=(isState(1000))?0:1110; refreshLesson();">
+        <h2 class="item-icon-right">
+          Gérer les leçons
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        </h2>
+      </ion-item>
+      <ion-item ng-hide=!isState(1000)>
+        <ion-list>
+          <ion-item ng-repeat="lesson in Lessons" type="item-text-wrap">
+            <h3 ng-hide="isState(1111) && StateMachineEditLess.val==lesson.id" class="item-icon-right">
+              {{lesson.label}}
+              <i class="icon ion-edit balanced item-icon-right" ng-model="lesson.value" style="cursor:pointer;" ng-click="StateMachine.val = 1111; StateMachineEditLess.val=lesson.id; lessonEdit.val='';"></i>
+              <i class="icon ion-close-round assertive" ng-model="lesson.value" style="cursor:pointer;" ng-click="lessonDelete({{lesson.id}})">
+              </i>
+            </h3>
+            <h3 ng-hide="!isState(1111) || StateMachineEditLess.val!={{lesson.id}}" class="item-icon-right">
+              <input ng-model="lessonEdit.val" type="text" placeholder="{{lesson.label}}">
+              <i class="icon ion-checkmark-round balanced item-icon-right" ng-model="lesson.value" style="cursor:pointer;" ng-click="lessonEdit(lesson.id, lessonEdit.val);"></i>
+              <i class="icon ion-android-cancel assertive" ng-model="lesson.value" style="cursor:pointer;" ng-click="StateMachine.val = 1110;"></i>
+            </h3>
+          </ion-item>
+          <ion-item type="item-text-wrap">
+            <h3 ng-hide=!isState(1110) class="item-icon-right"  style="cursor:pointer;" ng-click="lessonAdd()">
+              Ajouter une leçon
+              <i class="icon ion-plus-round positive">
+              </i>
+            </h3>
+            <h3 ng-hide=!isState(1120) class="item-icon-right"  style="cursor:pointer;">
+              <input ng-model="lessonNew.val" type="text" placeholder="Ajouter une leçon">
+              <i class="icon ion-plus-round positive"  ng-click="lessonPush()">
+              </i>
+            </h3>
+          </ion-item>
+        </ion-list>
+      </ion-item>
+      <ion-item ng-click="StateMachine.val=2100; refreshLesson();">
+        <h2 class="item-icon-right">
+          Gérer les mots
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        </h2>
+      </ion-item>
+      <ion-list ng-hide="!isState(2100)">
+        <ion-item ng-repeat="lesson in Lessons" type="item-text-wrap">
+          <h3 class="item-icon-left" style="cursor:pointer;" ng-click="wordChoseLesson({{lesson.id}})">
+            {{lesson.label}}
+            <i class="icon ion-chevron-right icon-accessory">
+            </i>
+          </h3>
+        </ion-item>
+      </ion-list>
+      <ion-list ng-hide="!isState(2200)">
+        <ion-item type="item-text-wrap">
+          <h3 class="item-icon-left" style="cursor:pointer;" ng-click="StateMachine.val = 2100;">
+            {{wordLessonChoosen.val}}
+            <i class="icon ion-chevron-right icon-accessory">
+            </i>
+          </h3>
+        </ion-item>
+      </ion-list>
+      <ion-item ng-hide=!isState(2210)>
+        <ion-list>
+          <ion-item ng-repeat="word in Words" type="item-text-wrap">
+            <ion-item type="item-text-wrap">
+              <h3 ng-hide="!isState(2200) || StateMachineAddSens.val==word.id" class="item-icon-right"  style="cursor:pointer;" ng-click="expressionAdd(word.id)">
+                Ajouter
+                <i class="icon ion-plus-round positive">
+                </i>
+              </h3>
+              <h3 ng-hide="!isState(2200) || StateMachineAddSens.val!=word.id" class="item-icon-right"  style="cursor:pointer;">
+                <input ng-model="expressionNew.val" type="text" placeholder="Ajouter un synonyme">
+                <span ng-hide=wordLanguage.val!="Fr" class="icon item-icon-right" ng-click="wordLanguage.val='It';">
+                  <span style="background-color: blue;color: blue;">v</span>
+                  <span style="background-color: white;color: white;">v</span>
+                  <span style="background-color: red;color: red;">v</span>
+                </span>
+                <span ng-hide=wordLanguage.val!="It" ng-click="wordLanguage.val='Fr';" class="icon item-icon-right">
+                  <span style="background-color: green;color: green;">v</span>
+                  <span style="background-color: white;color: white;">v</span>
+                  <span style="background-color: red;color: red;">v</span>
+                </span>
+                <i class="icon ion-plus-round positive"  ng-click="expressionPush()">
+                </i>
+              </h3>
+            </ion-item>
+            <ion-item class="" ng-repeat="syno in word.syn" type="item-text-wrap">
+            <p ng-hide="StateMachineEditLess.val==syno" class="item-icon-right">
+              {{syno.label}}, {{syno.lg}}
+              <i class="icon ion-edit balanced item-icon-right" style="cursor:pointer;" ng-click="StateMachine.val = 2211; StateMachineEditLess.val=syno; lessonEdit.val='';"></i>
+              <i class="icon ion-close-round assertive" style="cursor:pointer;" ng-click="expressionDelete({{word.id}}, syno.lg, {{syno.idSY}});"></i>
+            </p>
+            <p ng-hide="!isState(2211) || StateMachineEditLess.val!=syno" class="item-icon-right">
+              <input ng-model="lessonEdit.val" type="text" placeholder="{{syno.label}}">
+              <span ng-hide=wordLanguage.val!="Fr" class="icon item-icon-right" ng-click="wordLanguage.val='It';">
+                <span style="background-color: blue;color: blue;">-</span>
+                <span style="background-color: white;color: white;">-</span>
+                <span style="background-color: red;color: red;">-</span>
+              </span>
+              <span ng-hide=wordLanguage.val!="It" ng-click="wordLanguage.val='Fr';" class="icon item-icon-right">
+                <span style="background-color: green;color: green;">-</span>
+                <span style="background-color: white;color: white;">-</span>
+                <span style="background-color: red;color: red;">-</span>
+              </span>
+              <i class="icon ion-checkmark-round balanced item-icon-right" ng-model="word.value" style="cursor:pointer;" ng-click="lessonEdit(word.id, lessonEdit.val);"></i>
+              <i class="icon ion-android-cancel assertive" ng-model="word.value" style="cursor:pointer;" ng-click="StateMachineEditLess.val='';"></i>
+            </p>
+            </ion-item>
+          </ion-item>
+        </ion-list>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
+<ion-view view-title="Édition des données">
+  <ion-content>
+    <ion-list>
+      <ion-item  ng-click="StateMachine.val=(isState(1000))?0:1110; refreshLesson();">
+        <h2 class="item-icon-right">
+          Gérer les leçons
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        </h2>
+      </ion-item>
+      <ion-item ng-hide=!isState(1000)>
+        <ion-list>
+          <ion-item ng-repeat="lesson in Lessons" type="item-text-wrap">
+            <h3 ng-hide="isState(1111) && StateMachineEditLess.val==lesson.id" class="item-icon-right">
+              {{lesson.label}}
+              <i class="icon ion-edit balanced item-icon-right" ng-model="lesson.value" style="cursor:pointer;" ng-click="StateMachine.val = 1111; StateMachineEditLess.val=lesson.id; lessonEdit.val='';"></i>
+              <i class="icon ion-close-round assertive" ng-model="lesson.value" style="cursor:pointer;" ng-click="lessonDelete({{lesson.id}})">
+              </i>
+            </h3>
+            <h3 ng-hide="!isState(1111) || StateMachineEditLess.val!={{lesson.id}}" class="item-icon-right">
+              <input ng-model="lessonEdit.val" type="text" placeholder="{{lesson.label}}">
+              <i class="icon ion-checkmark-round balanced item-icon-right" ng-model="lesson.value" style="cursor:pointer;" ng-click="lessonEdit(lesson.id, lessonEdit.val);"></i>
+              <i class="icon ion-android-cancel assertive" ng-model="lesson.value" style="cursor:pointer;" ng-click="StateMachine.val = 1110;"></i>
+            </h3>
+          </ion-item>
+          <ion-item type="item-text-wrap">
+            <h3 ng-hide=!isState(1110) class="item-icon-right"  style="cursor:pointer;" ng-click="lessonAdd()">
+              Ajouter une leçon
+              <i class="icon ion-plus-round positive">
+              </i>
+            </h3>
+            <h3 ng-hide=!isState(1120) class="item-icon-right"  style="cursor:pointer;">
+              <input ng-model="lessonNew.val" type="text" placeholder="Ajouter une leçon">
+              <i class="icon ion-plus-round positive"  ng-click="lessonPush()">
+              </i>
+            </h3>
+          </ion-item>
+        </ion-list>
+      </ion-item>
+      <ion-item ng-click="StateMachine.val=2100; refreshLesson();">
+        <h2 class="item-icon-right">
+          Gérer les mots
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        </h2>
+      </ion-item>
+      <ion-list ng-hide="!isState(2100)">
+        <ion-item ng-repeat="lesson in Lessons" type="item-text-wrap">
+          <h3 class="item-icon-left" style="cursor:pointer;" ng-click="wordChoseLesson({{lesson.id}})">
+            {{lesson.label}}
+            <i class="icon ion-chevron-right icon-accessory">
+            </i>
+          </h3>
+        </ion-item>
+      </ion-list>
+      <ion-list ng-hide="!isState(2200)">
+        <ion-item type="item-text-wrap">
+          <h3 class="item-icon-left" style="cursor:pointer;" ng-click="StateMachine.val = 2100;">
+            {{wordLessonChoosen.val}}
+            <i class="icon ion-chevron-right icon-accessory">
+            </i>
+          </h3>
+        </ion-item>
+        <ion-item type="item-text-wrap">
+        <ion-item type="item-text-wrap">
+          <h3 ng-hide="!isState(2200) || StateMachineAddSens.val==-1" class="item-icon-right"  style="cursor:pointer;" ng-click="expressionAdd(-1)">
+            Ajouter
+            <i class="icon ion-plus-round positive">
+            </i>
+          </h3>
+          <h3 ng-hide="!isState(2200) || StateMachineAddSens.val!=-1" class="item-icon-right"  style="cursor:pointer;">
+            <input ng-model="expressionNew.val" type="text" placeholder="Ajouter une expression">
+            <span ng-hide=wordLanguage.val!="Fr" class="icon item-icon-right" ng-click="wordLanguage.val='It';">
+              <span style="background-color: blue;color: blue;">v</span>
+              <span style="background-color: white;color: white;">v</span>
+              <span style="background-color: red;color: red;">v</span>
+            </span>
+            <span ng-hide=wordLanguage.val!="It" ng-click="wordLanguage.val='Fr';" class="icon item-icon-right">
+              <span style="background-color: green;color: green;">v</span>
+              <span style="background-color: white;color: white;">v</span>
+              <span style="background-color: red;color: red;">v</span>
+            </span>
+            <i class="icon ion-plus-round positive"  ng-click="expressionPush(1)">
+            </i>
+          </h3>
+        </ion-item>
+        </ion-item>
+        <ion-item ng-hide=!isState(2210) ng-repeat="word in Words" type="item-text-wrap">
+            <ion-item type="item-text-wrap">
+              <h3 ng-hide="!isState(2200) || StateMachineAddSens.val==word.id" class="item-icon-right"  style="cursor:pointer;" ng-click="expressionAdd(word.id)">
+                Ajouter
+                <i class="icon ion-plus-round positive">
+                </i>
+              </h3>
+              <h3 ng-hide="!isState(2200) || StateMachineAddSens.val!=word.id" class="item-icon-right"  style="cursor:pointer;">
+                <input ng-model="expressionNew.val" type="text" placeholder="Ajouter un synonyme">
+                <span ng-hide=wordLanguage.val!="Fr" class="icon item-icon-right" ng-click="wordLanguage.val='It';">
+                  <span style="background-color: blue;color: blue;">v</span>
+                  <span style="background-color: white;color: white;">v</span>
+                  <span style="background-color: red;color: red;">v</span>
+                </span>
+                <span ng-hide=wordLanguage.val!="It" ng-click="wordLanguage.val='Fr';" class="icon item-icon-right">
+                  <span style="background-color: green;color: green;">v</span>
+                  <span style="background-color: white;color: white;">v</span>
+                  <span style="background-color: red;color: red;">v</span>
+                </span>
+                <i class="icon ion-plus-round positive"  ng-click="expressionPush(0,word)">
+                </i>
+              </h3>
+            </ion-item>
+        <div ng-repeat="syno in word.syn">
+  <ion-item ng-hide="StateMachineEditLess.val==syno" class="item item-input-inset" type="item-text-wrap">
+            <p class="item-icon-right">
+              {{syno.label}}, {{syno.lg}}
+              <i class="icon ion-edit balanced item-icon-right" style="cursor:pointer;" ng-click="StateMachine.val = 2211; StateMachineEditLess.val=syno; lessonEdit.val='';"></i>
+              <i class="icon ion-close-round assertive" style="cursor:pointer;" ng-click="expressionDelete({{word.id}}, syno.lg, {{syno.idSY}});"></i>
+            </p>
+  </ion-item>
+  <ion-item ng-hide="!isState(2211) || StateMachineEditLess.val!=syno" class="item item-input-inset" type="item-text-wrap">
+  <label class="item-input-wrapper">
+    <input type="text" ng-model="lessonEdit.val" placeholder="{{syno.label}}">
+  </label>
+  <span ng-hide="wordLanguage.val!='Fr'" ng-click="wordLanguage.val='It';" class="button button button-small" style="border-width: 0px; background: -webkit-linear-gradient(left, blue 33%, white 33%, white 67%, red 67%);">
+  </span>
+  <span ng-hide="wordLanguage.val!='It'" ng-click="wordLanguage.val='Fr';" class="button button button-small" style="border-width: 0px; background: -webkit-linear-gradient(left, green 33%, white 33%, white 67%, red 67%);">
+  </span>
+  <button class="button button-icon" ng-click="expressionEdit(word, syno, wordLanguage.val, lessonEdit.val);"><i class="icon ion-checkmark-round balanced"></i></button>
+  <button class="button button-icon" ng-click="StateMachineEditLess.val='';"><i class="icon ion-android-cancel assertive" ng-model="word.value"></i></button>
+          </ion-item>
+      </div>
+        </ion-item>
+      </ion-list>
+    </ion-list>
+  </ion-content>
+</ion-view>
