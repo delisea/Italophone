@@ -328,7 +328,7 @@ $scope.$on('$ionicView.enter', function(){
     $scope.wordR = {val: ""};
     $scope.Wtest = [];
     $scope.WQuizz = [];
-    //$scope.submit();
+    $scope.submit();
 
     /*document.getElementById("keyboard").addEventListener("mouseup", function($e){
       console.log("up"+$e.target.nodeName);
