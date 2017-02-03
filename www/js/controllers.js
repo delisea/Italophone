@@ -320,7 +320,7 @@ $scope.submit = function(){
   
 
 $scope.$on('$ionicView.enter', function(){
-	 if(window.localStorage.getItem("lessonSelected") == undefined || window.localStorage.getItem("lessonSelected").length == "[]")
+	 if(window.localStorage.getItem("lessonSelected") == undefined || window.localStorage.getItem("lessonSelected") === "[]")
 		$state.go("tab.selectform");
 	 else
 	    $scope.fstart();
