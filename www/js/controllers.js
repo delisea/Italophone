@@ -254,7 +254,7 @@ angular.module('starter.controllers', [])
     $scope.results = $stateParams.result;
 })*/
 
-.controller('MytabCtrl', function($scope, $ionicGesture, $Phapi, $ionicModal, TWords) {
+.controller('MytabCtrl', function($scope, $state, $ionicGesture, $Phapi, $ionicModal, TWords) {
   $scope.Wtest = [];
   $scope.WQuizz = [];
   var WTPush = function(wordA, wordB, note, lvl, idE, idSY, mcnt)
@@ -320,7 +320,10 @@ $scope.submit = function(){
   
 
 $scope.$on('$ionicView.enter', function(){
-    $scope.fstart();
+	 if(window.localStorage.getItem("lessonSelected") == undefined || window.localStorage.getItem("lessonSelected").length == "[]")
+		$state.go("tab.selectform");
+	 else
+	    $scope.fstart();
   })
 
   $scope.fstart = function() {
